@@ -1,16 +1,9 @@
+# ANSWER KEY: for TLs only, don't share with students
 import pytest
 from calculator import add, subtract, multiply, divide
 
-# HOW A TEST WORKS
-#   1. The function name MUST start with `test_` so pytest finds it.
-#   2. Call your code with some input.
-#   3. `assert` what the answer should be. If the assert is False, the test fails.
-#
-# Run all tests:   pytest
-# Run with detail: pytest -v
 
-
-# SAMPLE TEST (done for you) 
+# SAMPLE TEST (given to students)
 def test_add():
     assert add(2, 3) == 5          # normal case
     assert add(-2, -3) == -5       # negative numbers
@@ -19,23 +12,30 @@ def test_add():
     assert add(2.5, 0.5) == 3.0    # decimals
 
 
-# YOUR TURN
-# Write the tests below. Follow the same pattern as test_add.
+def test_subtract():
+    assert subtract(5, 3) == 2         # normal case
+    assert subtract(3, 5) == -2        # order matters (catches abs() bugs)
+    assert subtract(-2, -3) == 1       # negatives
+    assert subtract(7, 0) == 7         # zero
+    assert subtract(2.5, 0.5) == 2.0   # decimals
 
 
-# TODO: write test_subtract()
+def test_multiply():
+    assert multiply(4, 3) == 12        # normal case
+    assert multiply(-4, 3) == -12      # one negative
+    assert multiply(-4, -3) == 12      # two negatives
+    assert multiply(9, 0) == 0         # zero
+    assert multiply(2.5, 2) == 5.0     # decimals
 
 
-# TODO: write test_multiply()
+def test_divide():
+    assert divide(10, 2) == 5          # even split
+    assert divide(7, 2) == 3.5         # decimal answer (catches // bugs)
+    assert divide(-9, 3) == -3         # negative
+    assert divide(1, 4) == 0.25        # less than 1
+    assert divide(1, 3) == pytest.approx(0.333, rel=1e-2)  # repeating decimal
 
 
-# TODO: write test_divide()
-
-
-# TODO: write test_divide_by_zero()
-#   divide() raises a ValueError when b is 0. Here's how to test for an error:
-#       with pytest.raises(ValueError):
-#           divide(1, 0)
-
-
-# BONUS: add any extra tests you want! 
+def test_divide_by_zero():
+    with pytest.raises(ValueError):
+        divide(1, 0)
